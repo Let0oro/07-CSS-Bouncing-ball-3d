@@ -1,0 +1,176 @@
+:root {
+  --boxColor: #0ff7;
+  --rotateSpeed: 30s;
+  --bounceSpeed: 2s;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: system-ui, sans-serif;
+}
+
+body {
+  background-color: #000;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 75px;
+  perspective: 10em;
+  perspective-origin: 50% calc(50% - 2em);
+  overflow: hidden;
+}
+
+.scene {
+  position: relative;
+  transform-style: preserve-3d;
+  animation: sceneRotate var(--rotateSpeed) infinite linear;
+}
+
+@keyframes sceneRotate {
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
+@keyframes ballBounce {
+  0%,
+  100% {
+    bottom: 1em;
+    background-image: radial-gradient(circle at top, lightblue, 55%, #000);
+  }
+
+  12.5%,
+  87.5% {
+    background-image: radial-gradient(circle at top, lightblue, 56.25%, #000);
+  }
+
+  25%,
+  75% {
+    background-image: radial-gradient(circle at top, lightblue, 57.5%, #000);
+  }
+
+  37.5%,
+  62.5% {
+    background-image: radial-gradient(circle at top, lightblue, 58.75%, #000);
+  }
+
+  50% {
+    bottom: 3em;
+    animation-timing-function: ease-in;
+    background-image: radial-gradient(circle at top, lightblue, 60%, #000);
+  }
+}
+
+.ball {
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  background-color: #ccc;
+
+  position: absolute;
+  left: -0.5em;
+  bottom: 1em;
+
+  background-image: radial-gradient(circle at top, lightblue, 55%, #000);
+  animation: ballBounce var(--bounceSpeed) infinite ease-out,
+    sceneRotate var(--rotateSpeed) infinite linear reverse;
+}
+
+.ballShadow {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(#000, #0000 50%);
+  animation: ballShadowAnimate var(--bounceSpeed) infinite ease-out
+}
+
+@keyframes ballShadowAnimate {
+  0%,
+  100% {
+    background-image: radial-gradient(#000, #0000 50%);
+  }
+
+  12.5%,
+  87.5% {
+    background-image: radial-gradient(#000, #0000 47.5%);
+  }
+
+  25%,
+  75% {
+    background-image: radial-gradient(#000, #0000 45%);
+  }
+
+  37.5%,
+  62.5% {
+    background-image: radial-gradient(#000, #0000 42.5%);
+  }
+
+  50% {
+    background-image: radial-gradient(#000, #0000 40%);
+  }
+}
+
+.cube {
+  width: 2em;
+  height: 2em;
+
+  position: absolute;
+  top: -1em;
+  left: -1em;
+  transform-style: preserve-3d;
+}
+
+.cube :is(.left, .right, .front, .back) {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: var(--boxColor);
+  box-shadow: 0 0 0.5em #000a inset;
+}
+
+.cube .front {
+  transform: translateZ(1em);
+}
+.cube .right {
+  transform: rotateY(90deg) translateZ(1em);
+}
+.cube .back {
+  transform: translateZ(-1em);
+}
+.cube .left {
+  transform: rotateY(270deg) translateZ(1em);
+}
+.cube .top {
+  position: absolute;
+  width: 2em;
+  height: 2em;
+  background-color: var(--boxColor);
+  transform: translateY(-50%) rotateX(90deg);
+}
+.cube .bottom {
+  position: absolute;
+  width: 2em;
+  height: 2em;
+  bottom: 0;
+  background-color: #0007;
+  transform: translateY(50%) rotateX(90deg);
+  box-shadow: 0 0 0.5em #000;
+}
+
+.floor {
+  position: absolute;
+  width: 15em;
+  height: 15em;
+  top: 1em;
+  transform: translate(-50%, -50%) rotateX(90deg);
+  background-image: 
+  /* radial-gradient( #0000 50% , #000 75%), */repeating-conic-gradient( 
+    from 45deg,
+    #111 0deg 90deg,
+    #222 90deg 180deg
+  );
+  background-size: 1em 1em;
+}
